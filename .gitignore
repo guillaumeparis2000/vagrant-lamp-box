@@ -1,1 +1,7 @@
-.vagrant
+/.vagrant
+/.tmp/
+/modules/
+/.librarian/
+/.project
+/metadata.json
+/.editorconfig
