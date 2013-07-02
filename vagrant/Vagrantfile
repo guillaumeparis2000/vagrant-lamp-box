@@ -1,16 +1,21 @@
-Vagrant::Config.run do |config|
+Vagrant.configure("2") do |config|
     config.vm.box     = "squeeze64puppet3"
     config.vm.box_url = "http://l4bs.slynett.com/vagrant/squeeze64-puppet3.box"
 
-    config.vm.customize [ "modifyvm", :id, "--name", "develphp 533ef7ab24923b71fc0c46189598f6b8" ]
-    config.vm.customize [ "modifyvm", :id, "--memory", "512", "--cpus", "1" ]
+    config.vm.provider :virtualbox do |vb|
+      vb.customize [
+        'modifyvm', :id,
+        '--name', 'develphp',
+        '--memory', '512',
+        '--cpus', '1'
+      ]
+    end
 
-    config.vm.network :hostonly, "192.168.33.100"
-    config.vm.host_name = "dev-lamp"
+    config.vm.network :private_network, ip: '192.168.33.10'
+    config.vm.hostname = "dev-lamp"
 
-    config.vm.share_folder "vagrant", "/vagrant", "."
-
-        config.vm.share_folder "project", "/var/www/vhosts/dev-lamp", "..", :nfs => true, :create => true, :remount => true
+    #config.vm.synced_folder "vagrant", "/vagrant", "."
+    config.vm.synced_folder "/home/belano/code/jewelry_shop", "/var/www/jewelry_shop/"
 
     config.vm.provision :shell, :inline => "echo \"Europe/Madrid\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
 
@@ -18,6 +23,6 @@ Vagrant::Config.run do |config|
         puppet.options = '--verbose --debug'
         puppet.manifests_path = "manifests"
         puppet.module_path    = "modules"
-        puppet.manifest_file  = "base.pp"
+        #puppet.manifest_file  = "base.pp"
     end
 end
