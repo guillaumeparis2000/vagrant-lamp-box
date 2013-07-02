@@ -1,0 +1,12 @@
+forge 'http://forge.puppetlabs.com'
+
+mod 'example42/puppi', '2.0.8'
+mod 'puppetlabs/stdlib', '4.1.0'
+mod 'puppetlabs/vcsrepo', '0.1.2'
+mod 'puppetlabs/apt', '1.1.1'
+mod 'puppetlabs/firewall', '0.3.1'
+mod 'puppetlabs/apache', '0.6.0'
+mod 'example42/mysql', '2.0.8'
+mod 'example42/php', '2.0.8'
+mod 'ripienaar/concat', '0.2.0'
+mod 'system', :path => './mymodules/system'
