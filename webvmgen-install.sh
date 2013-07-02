@@ -38,7 +38,7 @@ mv $BASE_SCRIPT_DIR/533ef7ab24923b71fc0c46189598f6b8 $BASE_VAGRANT_DIR
 echo "Done."
 echo ""
 
-echo -e "\033[33m--> Grabbing 8 Git dependencie(s)...\033[0m"
+echo -e "\033[33m--> Grabbing 9 Git dependencie(s)...\033[0m"
 echo ""
 git clone https://github.com/example42/puppi.git $BASE_VAGRANT_DIR/modules/puppi
 git clone https://github.com/puppetlabs/puppetlabs-stdlib.git $BASE_VAGRANT_DIR/modules/stdlib
