@@ -61,7 +61,7 @@ node 'dev-lamp' {
         priority    => "50",
         vhost_name  => "*",
         port        => "80",
-        docroot     => "/var/www/jewelry_shop/",
+        docroot     => "/var/www/vhost/",
         docroot_owner   => $user,
         docroot_group   => $group,
         serveradmin => "admin@dev-lamp",
