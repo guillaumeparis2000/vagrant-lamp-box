@@ -24,6 +24,7 @@ FORGE
     puppetlabs/stdlib (4.1.0)
     puppetlabs/vcsrepo (0.1.2)
     ripienaar/concat (0.2.0)
+    saz/timezone (1.1.0)
 
 PATH
   remote: ./mymodules/system
@@ -40,5 +41,6 @@ DEPENDENCIES
   puppetlabs/stdlib (= 4.1.0)
   puppetlabs/vcsrepo (= 0.1.2)
   ripienaar/concat (= 0.2.0)
+  saz/timezone (= 1.1.0)
   system (>= 0)
 

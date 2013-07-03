@@ -15,12 +15,10 @@ Vagrant.configure("2") do |config|
     config.vm.hostname = "dev-lamp"
 
     #config.vm.synced_folder "vagrant", "/vagrant", "."
-    config.vm.synced_folder "/home/belano/code/jewelry_shop", "/var/www/jewelry_shop/"
-
-    config.vm.provision :shell, :inline => "echo \"Europe/Madrid\" | sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
+    config.vm.synced_folder "../../jewelry_shop", "/var/www/jewelry_shop/"
 
     config.vm.provision :puppet do |puppet|
-        puppet.options = '--verbose --debug'
+        puppet.options = '--verbose'
         puppet.manifests_path = "manifests"
         puppet.module_path    = "modules"
         #puppet.manifest_file  = "base.pp"

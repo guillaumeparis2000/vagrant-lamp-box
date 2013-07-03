@@ -17,6 +17,7 @@ node 'dev-lamp' {
     }
 
 
+    class { 'timezone': timezone => 'Europe/Madrid', }
 
     class { "system": }
 
@@ -163,6 +164,7 @@ node 'dev-lamp' {
 
     exec { "oh-my-zsh-install":
         command => "git clone https://github.com/robbyrussell/oh-my-zsh.git /home/vagrant/.oh-my-zsh",
+        unless  => "test -d /home/vagrant/.oh-my-zsh",
         path    => "/bin:/usr/bin",
         require => Package["zsh"],
     }
