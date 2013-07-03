@@ -1,6 +1,6 @@
 /vagrant/.vagrant
 /vagrant/.tmp/
-/vagrant/modules/
+/vagrant/modules/*
 /vagrant/.librarian/
 /.project
 /vagrant/metadata.json
