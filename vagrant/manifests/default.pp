@@ -1,24 +1,5 @@
 node 'dev-lamp' {
 
-  file { '/etc/apt/sources.list.d/squeeze-backports.list':
-    ensure  => file,
-    owner   => root,
-    group   => root,
-    content => 'deb http://backports.debian.org/debian-backports squeeze-backports main',
-  }
-
-
-  exec { 'import-gpg':
-      command => '/usr/bin/wget -q http://www.dotdeb.org/dotdeb.gpg -O -| \
-                  /usr/bin/apt-key add -'
-  }
-
-  exec { '/usr/bin/apt-get update':
-      require => [File['/etc/apt/sources.list.d/squeeze-backports.list'],
-                  Exec['import-gpg']],
-  }
-
-
   class { 'timezone': timezone => 'Europe/Madrid', }
 
   class { 'system': }
