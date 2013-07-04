@@ -1,8 +1,17 @@
 node 'dev-lamp' {
+  $user = 'portal'
+  $userFullname = "Portal User"
 
   class { 'timezone': timezone => 'Europe/Madrid', }
 
   class { 'system': }
+
+  user { $user:
+    comment       => 'This user was created by Puppet',
+    ensure        => present,
+    managehome    => true,
+  }
+
 
   file { '/etc/motd':
       ensure  => file,
@@ -37,16 +46,16 @@ node 'dev-lamp' {
   apache::mod { 'rewrite': }
   apache::mod { 'headers': }
 
-  $user  = $apache::params::user
-  $group = $apache::params::group
+  $apacheUser  = $apache::params::user
+  $apacheGroup = $apache::params::group
 
   apache::vhost { 'dev-lamp':
       priority        => '50',
       vhost_name      => '*',
       port            => '80',
       docroot         => '/var/www/vhost/',
-      docroot_owner   => $user,
-      docroot_group   => $group,
+      docroot_owner   => $apacheUser,
+      docroot_group   => $apacheGroup,
       serveradmin     => 'admin@dev-lamp',
       template        => 'system/apache-default-vhost.erb',
       override        => 'All',
