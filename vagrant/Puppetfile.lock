@@ -31,6 +31,11 @@ PATH
   specs:
     system (0.0.1)
 
+PATH
+  remote: ./mymodules/user
+  specs:
+    user (0.0.1)
+
 DEPENDENCIES
   example42/mysql (= 2.0.8)
   example42/php (= 2.0.8)
@@ -43,4 +48,5 @@ DEPENDENCIES
   ripienaar/concat (= 0.2.0)
   saz/timezone (= 1.1.0)
   system (>= 0)
+  user (>= 0)
 
