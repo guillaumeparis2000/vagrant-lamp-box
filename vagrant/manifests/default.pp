@@ -1,8 +1,16 @@
 node 'dev-lamp' {
+  $user = 'portal'
+  $userFullname = "Portal User"
 
   class { 'timezone': timezone => 'Europe/Madrid', }
 
   class { 'system': }
+
+  class { 'user':
+      userName => $user,
+      shell => 'zsh',
+  }
+
 
   file { '/etc/motd':
       ensure  => file,
@@ -12,18 +20,13 @@ node 'dev-lamp' {
       content => template('system/motd.erb'),
   }
 
-              system::package { 'build-essential': }
-                  system::package { 'curl': }
-                  system::package { 'git-core': }
-                  system::package { 'vim': }
-                  system::package { 'htop': }
-          system::package { 'atop': }
-                  system::package { 'sendmail-bin': }
-
-  system::config { 'bashrc':
-      name   => '.bashrc',
-      source => '/vagrant/files/system/bashrc',
-  }
+  system::package { 'build-essential': }
+  system::package { 'curl': }
+  system::package { 'git-core': }
+  system::package { 'vim': }
+  system::package { 'htop': }
+  system::package { 'atop': }
+  system::package { 'sendmail-bin': }
 
 
   class { 'apache': }
@@ -37,16 +40,16 @@ node 'dev-lamp' {
   apache::mod { 'rewrite': }
   apache::mod { 'headers': }
 
-  $user  = $apache::params::user
-  $group = $apache::params::group
+  $apacheUser  = $apache::params::user
+  $apacheGroup = $apache::params::group
 
   apache::vhost { 'dev-lamp':
       priority        => '50',
       vhost_name      => '*',
       port            => '80',
       docroot         => '/var/www/vhost/',
-      docroot_owner   => $user,
-      docroot_group   => $group,
+      docroot_owner   => $apacheUser,
+      docroot_group   => $apacheGroup,
       serveradmin     => 'admin@dev-lamp',
       template        => 'system/apache-default-vhost.erb',
       override        => 'All',
@@ -62,16 +65,12 @@ node 'dev-lamp' {
       group   => 'root',
   }
 
-
-  file { 'phpmyadmin-vhost-creation':
-      ensure  => link,
-      target  => '/vagrant/files/apache/sites-enabled/phpmyadmin.conf',
-      path    => '/etc/apache2/sites-enabled/phpmyadmin.conf',
-      require => [Package['php5'], Package['apache2']],
-      owner   => 'root',
-      group   => 'root',
+  system::config { 'phpmyadmin-vhost-creation':
+    ensure  => present,
+    source  => 'apache/sites-enabled/phpmyadmin.conf',
+    target  => '/etc/apache2/sites-enabled/phpmyadmin.conf',
+    require => [Package['php5'], Package['apache2']],
   }
-
 
   class { 'mysql':
       root_password => 'root',
@@ -81,18 +80,18 @@ node 'dev-lamp' {
 
   class { 'php': }
 
-  file { 'php5-ini-apache2-config':
-      ensure  => link,
-      target  => '/vagrant/files/php/php.ini',
-      path    => '/etc/php5/apache2/php.ini',
-      require => Package['php5'],
+  system::config { 'php5-ini-apache2-config':
+    ensure  => present,
+    source  => 'php/php.ini',
+    target  => '/etc/php5/apache2/php.ini',
+    require => Package['php5'],
   }
 
-  file { 'php5-ini-cli-config':
-      ensure  => link,
-      target  => '/vagrant/files/php/php-cli.ini',
-      path    => '/etc/php5/cli/php.ini',
-      require => Package['php5'],
+  system::config { 'php5-ini-cli-config':
+    ensure  => present,
+    source  => 'php/php-cli.ini',
+    target  => '/etc/php5/cli/php.ini',
+    require => Package['php5'],
   }
 
   php::module { 'common': }
@@ -113,68 +112,4 @@ node 'dev-lamp' {
   system::package { 'phpmyadmin':
       require => Package['php5']
   }
-
-
-  vcsrepo { 'vim-config':
-      ensure   => present,
-      path     => '/home/vagrant/.vim-config',
-      provider => git,
-      source   => 'https://github.com/stephpy/vim-config.git',
-      require  => Package['vim'],
-      user     => 'vagrant',
-      group    => 'vagrant',
-  }
-
-  file { 'vim-config-symlink-vimdir':
-      ensure  => link,
-      path    => '/home/vagrant/.vim/',
-      target  => '/home/vagrant/.vim-config/.vim/',
-      require => Vcsrepo['vim-config'],
-      owner   => 'vagrant',
-      replace => false,
-  }
-
-  file { 'vim-config-symlink-vimrcfile':
-      ensure  => link,
-      path    => '/home/vagrant/.vimrc',
-      target  => '/home/vagrant/.vim-config/.vimrc',
-      require => Vcsrepo['vim-config'],
-      owner   => 'vagrant',
-      replace => false,
-  }
-
-  file { 'vim-vimrc-local-after':
-      ensure  => link,
-      target  => '/vagrant/files/vimrc.local.after',
-      path    => '/home/vagrant/.vimrc.local.after',
-      require => Vcsrepo['vim-config'],
-  }
-
-  system::package { 'zsh': }
-
-  exec { 'oh-my-zsh-install':
-      command => 'git clone https://github.com/robbyrussell/oh-my-zsh.git \
-                  /home/vagrant/.oh-my-zsh',
-      unless  => 'test -d /home/vagrant/.oh-my-zsh',
-      path    => '/bin:/usr/bin',
-      require => Package['zsh'],
-  }
-
-  exec { 'default-zsh-shell':
-      command => 'chsh -s /usr/bin/zsh vagrant',
-      unless  => 'grep -E \'^vagrant.+:/usr/bin/zsh$\' /etc/passwd',
-      require => Package['zsh'],
-      path    => '/bin:/usr/bin',
-  }
-
-  file { 'zshrc-file-creation':
-      ensure  => link,
-      target  => '/vagrant/files/.zshrc',
-      path    => '/home/vagrant/.zshrc',
-      require => Exec['oh-my-zsh-install'],
-      owner   => 'vagrant',
-      group   => 'vagrant',
-      replace => false,
-  }
-
 }

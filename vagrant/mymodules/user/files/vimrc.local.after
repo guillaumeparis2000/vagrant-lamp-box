@@ -1,4 +1,4 @@
-" Setting up Vundle - the vim plugin bundler                                                                      
+" Setting up Vundle - the vim plugin bundler
     let needsBundle=1
     let vundleReadme=expand('~/.vim/bundle/vundle/README.md')
     if !filereadable(vundleReadme)
