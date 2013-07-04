@@ -69,6 +69,16 @@ node 'dev-lamp' {
       serveradmin     => 'admin@dev-lamp',
       template        => 'system/apache-default-vhost.erb',
       override        => 'All',
+      require         =>  File['www'],
+  }
+
+  file { 'www':
+      ensure  => directory,
+      target  => '/var/www',
+      path    => '/var/www',
+      require => Package['apache2'],
+      owner   => 'root',
+      group   => 'root',
   }
 
 
