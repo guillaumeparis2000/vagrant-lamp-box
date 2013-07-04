@@ -20,13 +20,13 @@ node 'dev-lamp' {
       content => template('system/motd.erb'),
   }
 
-              system::package { 'build-essential': }
-                  system::package { 'curl': }
-                  system::package { 'git-core': }
-                  system::package { 'vim': }
-                  system::package { 'htop': }
-          system::package { 'atop': }
-                  system::package { 'sendmail-bin': }
+  system::package { 'build-essential': }
+  system::package { 'curl': }
+  system::package { 'git-core': }
+  system::package { 'vim': }
+  system::package { 'htop': }
+  system::package { 'atop': }
+  system::package { 'sendmail-bin': }
 
 
   class { 'apache': }
@@ -65,16 +65,12 @@ node 'dev-lamp' {
       group   => 'root',
   }
 
-
-  file { 'phpmyadmin-vhost-creation':
-      ensure  => link,
-      target  => '/vagrant/files/apache/sites-enabled/phpmyadmin.conf',
-      path    => '/etc/apache2/sites-enabled/phpmyadmin.conf',
-      require => [Package['php5'], Package['apache2']],
-      owner   => 'root',
-      group   => 'root',
+  system::config { 'phpmyadmin-vhost-creation':
+    ensure  => present,
+    source  => 'apache/sites-enabled/phpmyadmin.conf',
+    target  => '/etc/apache2/sites-enabled/phpmyadmin.conf',
+    require => [Package['php5'], Package['apache2']],
   }
-
 
   class { 'mysql':
       root_password => 'root',
@@ -84,18 +80,18 @@ node 'dev-lamp' {
 
   class { 'php': }
 
-  file { 'php5-ini-apache2-config':
-      ensure  => link,
-      target  => '/vagrant/files/php/php.ini',
-      path    => '/etc/php5/apache2/php.ini',
-      require => Package['php5'],
+  system::config { 'php5-ini-apache2-config':
+    ensure  => present,
+    source  => 'php/php.ini',
+    target  => '/etc/php5/apache2/php.ini',
+    require => Package['php5'],
   }
 
-  file { 'php5-ini-cli-config':
-      ensure  => link,
-      target  => '/vagrant/files/php/php-cli.ini',
-      path    => '/etc/php5/cli/php.ini',
-      require => Package['php5'],
+  system::config { 'php5-ini-cli-config':
+    ensure  => present,
+    source  => 'php/php-cli.ini',
+    target  => '/etc/php5/cli/php.ini',
+    require => Package['php5'],
   }
 
   php::module { 'common': }
