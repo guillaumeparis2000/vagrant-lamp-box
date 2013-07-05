@@ -87,3 +87,30 @@ Log on to the vms
 ```sh
 $ vagrant ssh
 ```
+
+## Installation in a clean Ubuntu 13.04 64bits (raring)
+
+### enable the puppetlabs repository for Ubuntu 12.04 Precise Pangolin
+```sh
+$ cd /tmp && sudo wget http://apt.puppetlabs.com/puppetlabs-release-raring.deb
+$ sudo dpkg -i puppetlabs-release-raring.deb
+$ sudo apt-get update
+```
+
+### install packages
+```sh
+sudo apt-get install build-essential git puppet-common=2.7.22-1puppetlabs1 ruby-dev rubygems1.8
+```
+
+### install librarian
+```sh
+$ sudo gem install librarian-puppet
+```
+
+### clone repo && provision with puppet
+```sh
+$ cd /tmp && wget https://github.com/guillaumeparis2000/vagrant-lamp-box/archive/0.0.1.tar.gz
+$ tar xvzf 0.0.1.tar.gz
+$ cd /tmp/vagrant-lamp-box/vagrant && librarian-puppet install
+$ puppet apply --pluginsync --verbose --debug --modulepath '/tmp/vagrant-lamp-box/vagrant/modules' /tmp/vagrant-lamp-box/vagrant/manifests/default.pp
+```
