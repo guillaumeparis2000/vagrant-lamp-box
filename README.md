@@ -18,16 +18,6 @@ $ git clone git@github.com:guillaumeparis2000/vagrant-lamp-box.git
 $ cd vagrant-lamp-box/vagrant
 ```
 
-Install ruby bundler gem
-```sh
-$ gem install bundler
-```
-
-Install all of the required gems from your specified sources in `Gemfile`:
-```sh
-$ bundle install
-```
-
 Install all required Puppet modules defined for the project using `librarian-puppet`
 ```sh
 $ librarian-puppet install
