@@ -37,7 +37,7 @@ node 'dev-lamp' {
   system::package { 'vim': }
   system::package { 'htop': }
   system::package { 'atop': }
-  system::package { 'sendmail-bin': }
+  # system::package { 'sendmail-bin': }
 
 
   class { 'apache': }
