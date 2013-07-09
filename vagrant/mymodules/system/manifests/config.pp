@@ -18,13 +18,13 @@
 #      source => "/vagrant/files/system/bashrc",
 #  }
 #
-define system::config ($source, $target, $require, $ensure = 'present') {
+define system::config ($source, $target, $required, $ensure = 'present') {
 
   file { "Systen_${name}":
       ensure  => $ensure,
       source  => "puppet:///modules/system/${source}",
       name    => $target,
-      require => $require,
+      require => $required,
       owner   => 'root',
       group   => 'root',
   }

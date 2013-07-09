@@ -77,10 +77,10 @@ node 'dev-lamp' {
   }
 
   system::config { 'phpmyadmin-vhost-creation':
-    ensure  => present,
-    source  => 'apache/sites-enabled/phpmyadmin.conf',
-    target  => '/etc/apache2/sites-enabled/phpmyadmin.conf',
-    require => [Package['php5'], Package['apache2']],
+    ensure    => present,
+    source    => 'apache/sites-enabled/phpmyadmin.conf',
+    target    => '/etc/apache2/sites-enabled/phpmyadmin.conf',
+    required  => [Package['php5'], Package['apache2']],
   }
 
   class { 'mysql':
@@ -92,17 +92,17 @@ node 'dev-lamp' {
   class { 'php': }
 
   system::config { 'php5-ini-apache2-config':
-    ensure  => present,
-    source  => 'php/php.ini',
-    target  => '/etc/php5/apache2/php.ini',
-    require => Package['php5'],
+    ensure    => present,
+    source    => 'php/php.ini',
+    target    => '/etc/php5/apache2/php.ini',
+    required  => Package['php5'],
   }
 
   system::config { 'php5-ini-cli-config':
-    ensure  => present,
-    source  => 'php/php-cli.ini',
-    target  => '/etc/php5/cli/php.ini',
-    require => Package['php5'],
+    ensure    => present,
+    source    => 'php/php-cli.ini',
+    target    => '/etc/php5/cli/php.ini',
+    required  => Package['php5'],
   }
 
   php::module { 'common': }
