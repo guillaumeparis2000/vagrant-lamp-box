@@ -1,6 +1,17 @@
 node 'dev-lamp' {
-  $user = 'portal'
+  # Must be configured
+  # User to create
+  $user         = 'portal'
   $userFullname = "Portal User"
+
+  # SMTP parameters
+  $smtpServer   = "smtp.gmail.com"
+  $smtpUser     = "stmpUser"
+  $smtpPassword = "password"
+  $smtpPort     = '587'
+  $domain       = 'localhost'
+  $relayTo      = 'your-email+address@mail.com'
+  # /Must be configured
 
   class { 'timezone': timezone => 'Europe/Madrid', }
 
@@ -111,5 +122,15 @@ node 'dev-lamp' {
 
   system::package { 'phpmyadmin':
       require => Package['php5']
+  }
+
+  class { 'postfix':
+      smtpUser      => $smtpUser,
+      smtpServer    => $smtpServer,
+      smtpPort      => $smtpPort,
+      smtpPassword  => $smtpPassword,
+      hostname      => $hostname,
+      domain        => $domain,
+      relayTo       => $relayTo,
   }
 }
