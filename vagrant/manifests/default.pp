@@ -2,12 +2,12 @@ node 'dev-lamp' {
   # Must be configured
   # User to create
   $user         = 'portal'
-  $userFullname = "Portal User"
+  $userFullname = 'Portal User'
 
   # SMTP parameters
-  $smtpServer   = "smtp.gmail.com"
-  $smtpUser     = "stmpUser"
-  $smtpPassword = "password"
+  $smtpServer   = 'smtp.gmail.com'
+  $smtpUser     = 'stmpUser'
+  $smtpPassword = 'password'
   $smtpPort     = '587'
   $domain       = 'localhost'
   $relayTo      = 'your-email+address@mail.com'
@@ -18,8 +18,8 @@ node 'dev-lamp' {
   class { 'system': }
 
   class { 'user':
-      userName => $user,
-      shell => 'zsh',
+      userName  => $user,
+      shell     => 'zsh',
   }
 
 
