@@ -107,7 +107,7 @@ sudo apt-get install build-essential git puppet-common=2.7.22-1puppetlabs1 ruby-
 $ sudo gem install librarian-puppet
 ```
 
-### Download vagrant-lmap-box && provision with puppet
+### Download vagrant-lamp-box && provision with puppet
 ```sh
 $ cd /tmp && wget https://github.com/guillaumeparis2000/vagrant-lamp-box/archive/0.0.1.tar.gz
 $ tar xvzf 0.0.1.tar.gz
