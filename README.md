@@ -89,28 +89,12 @@ $ vagrant ssh
 ```
 
 ## Installation in a clean Ubuntu 13.04 64bits (raring)
+To install the vagrant-lamp-box on a clean ubuntu Raring server, you need to download the last release, untar it, edit the ```vagrant/manifests/default.pp``` manifest file to set the hostname and execute the ini.sh file.
 
-### enable the puppetlabs repository for Ubuntu 12.04 Precise Pangolin
 ```sh
-$ cd /tmp && sudo wget http://apt.puppetlabs.com/puppetlabs-release-raring.deb
-$ sudo dpkg -i puppetlabs-release-raring.deb
-$ sudo apt-get update
-```
-
-### install packages
-```sh
-sudo apt-get install build-essential git puppet-common=2.7.22-1puppetlabs1 ruby-dev rubygems1.8
-```
-
-### install librarian
-```sh
-$ sudo gem install librarian-puppet
-```
-
-### Download vagrant-lmap-box && provision with puppet
-```sh
-$ cd /tmp && wget https://github.com/guillaumeparis2000/vagrant-lamp-box/archive/0.0.1.tar.gz
+$ wget https://github.com/guillaumeparis2000/vagrant-lamp-box/archive/
 $ tar xvzf 0.0.1.tar.gz
-$ cd /tmp/vagrant-lamp-box/vagrant && librarian-puppet install
-$ puppet apply --pluginsync --verbose --debug --modulepath '/tmp/vagrant-lamp-box/vagrant/modules' /tmp/vagrant-lamp-box/vagrant/manifests/default.pp
+$ cd vagrant-lamp-box-0.0.1
+$ vim vagrant/manifests/default.pp  # to change the hostname (replace dev-lamp by the good one)
+$ sudo ./init.sh
 ```
