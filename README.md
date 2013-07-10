@@ -94,7 +94,7 @@ To install the vagrant-lamp-box on a clean ubuntu Raring server, you need to dow
 ```sh
 $ wget https://github.com/guillaumeparis2000/vagrant-lamp-box/archive/
 $ tar xvzf 0.0.1.tar.gz
-$ cd vagrant-lamp-box-0.0.1
+$ cd vagrant-lamp-box-0.0.2
 $ vim vagrant/manifests/default.pp  # to change the hostname (replace dev-lamp by the good one)
 $ sudo ./init.sh
 ```
